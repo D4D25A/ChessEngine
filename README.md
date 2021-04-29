@@ -1,5 +1,9 @@
-# Status
+![](img/logo-transparent.png)
+## A W.I.P cheat engine for Chess.com
+*ChessEngine calculates and provides optimal moves by actively interpretting your Chess.com match in realtime.
 
+
+# Status
 * Session Info Extraction: Working
 * Active Piece Identification: Working 
 * Board Status Identification: Working
