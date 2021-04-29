@@ -12,7 +12,8 @@
 * Player Turn Detection: Working
 * Game End Detection: Working
 * Extract Piece Coordinates: Working 
-* Piece Coordinate Storage: Working 
+* Current Piece Coordinate Storage: Working 
+* Previous Piece Coordinate Storage: Working
 * Piece Movement Differentiation: Work in-progress
 * Analysis Engine Input: Work in-progress
 * Analysis Engine Output: Work in-progress
