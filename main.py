@@ -16,6 +16,9 @@ def log(text):
     livetime = timenow()
     print(livetime+text)
 
+def spaced(text):
+    print('                      '+text)
+
 chrome_options = Options()
 chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 browser = webdriver.Chrome(executable_path=r"./chromedriver", options=chrome_options)
@@ -72,14 +75,23 @@ def teamassign(): # to only be executed at the very beginning of a game
     enemyBlack = False
     selfBlack = False
     enemyWhite = False
+
+    try:
+        global game_id
+        game_id = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
+    except NoSuchElementException:
+        run()
     
     try:
-        browser.find_elements_by_class_name("piece wr square-11")
-        selfWhite = True
-        enemyBlack = True
+        flipcheck = browser.find_element_by_xpath('//*[@id="board-rcnGame-e705ed70-a899-11eb-825f-e6aba701000f"]').get_attribute('class')
+        if flipcheck == 'board':
+            selfWhite = True
+            enemyBlack = True
+        if flipcheck == 'board flipped':
+            selfBlack = True
+            enemyWhite = True
     except NoSuchElementException:
-        selfBlack = True
-        enemyWhite = True
+        run()
     
 
     global current_coords_self_pieces
@@ -155,8 +167,15 @@ def teamassign(): # to only be executed at the very beginning of a game
 
 
 def game_status():
+    try:
+        gameoverbuttons = browser.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[3]/div[1]')
+        if 'Rematch' in (gameoverbuttons.text):
+            run()
+        else:
+            pass
+    except NoSuchElementException:
+        run()
     statusscan = True
-    log('Waiting for player turn...')
     while(True):
         try: 
             prevopponenettime = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[3]/span').text
@@ -203,8 +222,7 @@ def process():
         (current_coords_enemy_pieces.wq).clear()
         (current_coords_enemy_pieces.wk).clear()
 
-    log('Begin reading pieces...')
-    game_id = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[2]/captured-pieces').get_attribute("board-id")
+    log('Reading gameboard...')
     for i in range(1,33):
         retrieve_pieces = browser.find_element_by_xpath('//*[@id="'+game_id+'"]/div['+str(i)+']')
         selected_piece = retrieve_pieces.get_attribute("class")
@@ -270,9 +288,14 @@ def process():
                 (current_coords_self_pieces.bk).append(int(piece_position[0]))
             if selfWhite==True:
                 (current_coords_enemy_pieces.bk).append(int(piece_position[0]))    
-    log('Finish reading pieces...')
-    log('Your white pawns are placed at: '+str(current_coords_self_pieces.wp))
+    if selfWhite==True:
+        log('Your white pawns are placed at: '+str(current_coords_self_pieces.wp))
+        log("Enemy's black pawns are placed at:"+str(current_coords_enemy_pieces.bp))
+    if selfBlack==True:
+        log('Your black pawns are placed at: '+str(current_coords_self_pieces.bp))
+        log("Enemy's white pawns are placed at:"+str(current_coords_enemy_pieces.wp))
     turntaken = True
+    log('Waiting for your next turn...')
     while turntaken==True:
         prevselftime = browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]/span').text
         time.sleep(1.5)
@@ -286,6 +309,15 @@ def process():
 def run():
     input(timenow()+'Press enter when game started...')
     teamassign()
+    log('Game hooked, interpretting parameters...')
+    if selfWhite==True:
+        spaced('Game-ID'+game_id)
+        spaced('Your pieces are: White')
+        spaced('Enemy pieces are: Black\n')
+    if selfBlack==True:
+        spaced('Game-ID'+game_id)
+        spaced('Your pieces are: Black')
+        spaced('Enemy pieces are: White\n')
     game_status()
 
 if __name__ == "__main__":
