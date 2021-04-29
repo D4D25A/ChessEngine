@@ -92,7 +92,12 @@ def teamassign(): # to only be executed at the very beginning of a game
         global game_id
         game_id = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[2]/captured-pieces').get_attribute("board-id")
     except NoSuchElementException:
-        run()
+        if 'computer' in browser.current_url:
+            log(f'Bot matches are currently {bcolors.UNDERLINE}unsupported.{bcolors.ENDC}')
+            run()
+        else:
+            log('Online game not found.')
+            run()
     
     try:
         flipcheck = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
@@ -182,10 +187,12 @@ def game_status():
     try:
         gameoverbuttons = browser.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[3]/div[1]')
         if 'Rematch' in (gameoverbuttons.text):
+            log('Game ended.')
             run()
         else:
             pass
     except NoSuchElementException:
+        log('Unable to hook into game buttons.')
         run()
     statusscan = True
     while(True):
@@ -198,6 +205,7 @@ def game_status():
             else:
                 pass
         except NoSuchElementException:
+            log('Unable to hook into game timer.')
             run()
     process()
 
@@ -361,6 +369,7 @@ def process():
                 if selfWhite==True:
                     (current_coords_enemy_pieces.bk).append(int(piece_position[0]))   
     except NoSuchElementException:
+        log('Unable to hook into game pieces.')
         run() 
     if selfWhite==True:
         print(' ')
@@ -389,9 +398,9 @@ def process():
     game_status()
 
 def run():
-    input(timenow()+'Press enter when game started...')
+    input(timenow()+'Press enter when online game started...')
     teamassign()
-    log('Game hooked, interpretting parameters...')
+    log('Game framework hooked, interpretting parameters...')
     if selfWhite==True:
         print(' ')
         spaced('Game-ID: '+game_id)
