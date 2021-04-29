@@ -206,6 +206,36 @@ def process():
 
     if selfWhite==True:
         log(f'Reading {bcolors.UNDERLINE}normal{bcolors.ENDC} gameboard...')
+        (previous_coords_self_pieces.wp).clear()
+        (previous_coords_self_pieces.wr).clear()
+        (previous_coords_self_pieces.wn).clear()
+        (previous_coords_self_pieces.wb).clear()
+        (previous_coords_self_pieces.wq).clear()
+        (previous_coords_self_pieces.wk).clear()
+
+        (previous_coords_enemy_pieces.bp).clear()
+        (previous_coords_enemy_pieces.br).clear()
+        (previous_coords_enemy_pieces.bn).clear()
+        (previous_coords_enemy_pieces.bb).clear()
+        (previous_coords_enemy_pieces.bq).clear()
+        (previous_coords_enemy_pieces.bk).clear()
+
+        (previous_coords_self_pieces.wp).extend((current_coords_self_pieces.wp).copy())
+        (previous_coords_self_pieces.wr).extend((current_coords_self_pieces.wr).copy())
+        (previous_coords_self_pieces.wn).extend((current_coords_self_pieces.wn).copy())
+        (previous_coords_self_pieces.wb).extend((current_coords_self_pieces.wb).copy())
+        (previous_coords_self_pieces.wq).extend((current_coords_self_pieces.wq).copy())
+        (previous_coords_self_pieces.wk).extend((current_coords_self_pieces.wk).copy())
+
+        (previous_coords_enemy_pieces.bp).extend((current_coords_enemy_pieces.bp).copy())
+        (previous_coords_enemy_pieces.br).extend((current_coords_enemy_pieces.br).copy())
+        (previous_coords_enemy_pieces.bn).extend((current_coords_enemy_pieces.bn).copy())
+        (previous_coords_enemy_pieces.bb).extend((current_coords_enemy_pieces.bb).copy())
+        (previous_coords_enemy_pieces.bq).extend((current_coords_enemy_pieces.bq).copy())
+        (previous_coords_enemy_pieces.bk).extend((current_coords_enemy_pieces.bk).copy())
+
+
+
         (current_coords_self_pieces.wp).clear()
         (current_coords_self_pieces.wr).clear()
         (current_coords_self_pieces.wn).clear()
@@ -222,6 +252,34 @@ def process():
     
     if selfBlack==True:
         log(f'Reading {bcolors.UNDERLINE}flipped{bcolors.ENDC} gameboard...')
+        (previous_coords_self_pieces.bp).clear()
+        (previous_coords_self_pieces.br).clear()
+        (previous_coords_self_pieces.bn).clear()
+        (previous_coords_self_pieces.bb).clear()
+        (previous_coords_self_pieces.bq).clear()
+        (previous_coords_self_pieces.bk).clear()
+
+        (previous_coords_enemy_pieces.wp).clear()
+        (previous_coords_enemy_pieces.wr).clear()
+        (previous_coords_enemy_pieces.wn).clear()
+        (previous_coords_enemy_pieces.wb).clear()
+        (previous_coords_enemy_pieces.wq).clear()
+        (previous_coords_enemy_pieces.wk).clear()
+
+        (previous_coords_self_pieces.bp).extend((current_coords_self_pieces.bp).copy())
+        (previous_coords_self_pieces.br).extend((current_coords_self_pieces.br).copy())
+        (previous_coords_self_pieces.bn).extend((current_coords_self_pieces.bn).copy())
+        (previous_coords_self_pieces.bb).extend((current_coords_self_pieces.bb).copy())
+        (previous_coords_self_pieces.bq).extend((current_coords_self_pieces.bq).copy())
+        (previous_coords_self_pieces.bk).extend((current_coords_self_pieces.bk).copy())
+
+        (previous_coords_enemy_pieces.wp).extend((current_coords_enemy_pieces.wp).copy())
+        (previous_coords_enemy_pieces.wr).extend((current_coords_enemy_pieces.wr).copy())
+        (previous_coords_enemy_pieces.wn).extend((current_coords_enemy_pieces.wn).copy())
+        (previous_coords_enemy_pieces.wb).extend((current_coords_enemy_pieces.wb).copy())
+        (previous_coords_enemy_pieces.wq).extend((current_coords_enemy_pieces.wq).copy())
+        (previous_coords_enemy_pieces.wk).extend((current_coords_enemy_pieces.wk).copy())
+
         (current_coords_self_pieces.bp).clear()
         (current_coords_self_pieces.br).clear()
         (current_coords_self_pieces.bn).clear()
@@ -305,11 +363,19 @@ def process():
     except NoSuchElementException:
         run() 
     if selfWhite==True:
-        log('Your white pawns are placed at: '+str(current_coords_self_pieces.wp))
-        log("Enemy's black pawns are placed at: "+str(current_coords_enemy_pieces.bp))
+        print(' ')
+        spaced('Your previous white pawns were placed at: '+str(previous_coords_self_pieces.wp))
+        spaced('Your current white pawns are placed at: '+str(current_coords_self_pieces.wp))
+        spaced("Enemy's previous black pawns were placed at: "+str(previous_coords_enemy_pieces.bp))
+        spaced("Enemy's current black pawns are placed at: "+str(current_coords_enemy_pieces.bp))
+        print(' ')
     if selfBlack==True:
-        log('Your black pawns are placed at: '+str(current_coords_self_pieces.bp))
-        log("Enemy's white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
+        print(' ')
+        spaced('Your previous black pawns were placed at: '+str(previous_coords_self_pieces.bp))
+        spaced('Your current black pawns are placed at: '+str(current_coords_self_pieces.bp))
+        spaced("Enemy's previous white pawns were placed at: "+str(previous_coords_enemy_pieces.wp))
+        spaced("Enemy's current white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
+        print(' ')
     turntaken = True
     log('Waiting for your next turn...')
     while turntaken==True:
