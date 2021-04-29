@@ -8,6 +8,18 @@ from selenium.webdriver.chrome.options import Options
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
+class bcolors:
+    HEADER = '\033[95m'
+    CYAN = '\u001b[36m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    MAGENTA = '\u001b[35m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def timenow():
     current = '['+strftime("%Y-%m-%d %H:%M:%S", gmtime())+'] '
     return(current)
@@ -78,12 +90,12 @@ def teamassign(): # to only be executed at the very beginning of a game
 
     try:
         global game_id
-        game_id = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
+        game_id = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[2]/captured-pieces').get_attribute("board-id")
     except NoSuchElementException:
         run()
     
     try:
-        flipcheck = browser.find_element_by_xpath('//*[@id="board-rcnGame-e705ed70-a899-11eb-825f-e6aba701000f"]').get_attribute('class')
+        flipcheck = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
         if flipcheck == 'board':
             selfWhite = True
             enemyBlack = True
@@ -193,6 +205,7 @@ def game_status():
 def process():
 
     if selfWhite==True:
+        log(f'Reading {bcolors.UNDERLINE}normal{bcolors.ENDC} gameboard...')
         (current_coords_self_pieces.wp).clear()
         (current_coords_self_pieces.wr).clear()
         (current_coords_self_pieces.wn).clear()
@@ -208,6 +221,7 @@ def process():
         (current_coords_enemy_pieces.bk).clear()
     
     if selfBlack==True:
+        log(f'Reading {bcolors.UNDERLINE}flipped{bcolors.ENDC} gameboard...')
         (current_coords_self_pieces.bp).clear()
         (current_coords_self_pieces.br).clear()
         (current_coords_self_pieces.bn).clear()
@@ -222,78 +236,80 @@ def process():
         (current_coords_enemy_pieces.wq).clear()
         (current_coords_enemy_pieces.wk).clear()
 
-    log('Reading gameboard...')
-    for i in range(1,33):
-        retrieve_pieces = browser.find_element_by_xpath('//*[@id="'+game_id+'"]/div['+str(i)+']')
-        selected_piece = retrieve_pieces.get_attribute("class")
-        piece_type = selected_piece.split(' ')[2-1]
-        piece_position = re.findall("\d+", selected_piece)
-        if piece_type == 'wp':
-            if selfWhite==True:
-                (current_coords_self_pieces.wp).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wp).append(int(piece_position[0]))
-        elif piece_type == 'wr':
-            if selfWhite==True:
-                (current_coords_self_pieces.wr).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wr).append(int(piece_position[0]))
-        elif piece_type == 'wn':
-            if selfWhite==True:
-                (current_coords_self_pieces.wn).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wn).append(int(piece_position[0]))
-        elif piece_type == 'wb':
-            if selfWhite==True:
-                (current_coords_self_pieces.wb).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wb).append(int(piece_position[0]))
-        elif piece_type == 'wq':
-            if selfWhite==True:
-                (current_coords_self_pieces.wq).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wq).append(int(piece_position[0]))
-        elif piece_type == 'wk':    
-            if selfWhite==True:
-                (current_coords_self_pieces.wk).append(int(piece_position[0]))
-            if selfBlack==True:
-                (current_coords_enemy_pieces.wk).append(int(piece_position[0]))
-        if piece_type == 'bp':
-            if selfBlack==True:
-                (current_coords_self_pieces.bp).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.bp).append(int(piece_position[0]))
-        elif piece_type == 'br':
-            if selfBlack==True:
-                (current_coords_self_pieces.br).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.br).append(int(piece_position[0]))
-        elif piece_type == 'bn':
-            if selfBlack==True:
-                (current_coords_self_pieces.bn).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.bn).append(int(piece_position[0]))
-        elif piece_type == 'bb':
-            if selfBlack==True:
-                (current_coords_self_pieces.bb).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.bb).append(int(piece_position[0]))
-        elif piece_type == 'bq':
-            if selfBlack==True:
-                (current_coords_self_pieces.bq).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.bq).append(int(piece_position[0]))
-        elif piece_type == 'bk':
-            if selfBlack==True:
-                (current_coords_self_pieces.bk).append(int(piece_position[0]))
-            if selfWhite==True:
-                (current_coords_enemy_pieces.bk).append(int(piece_position[0]))    
+    try:
+        for i in range(1,33):
+            retrieve_pieces = browser.find_element_by_xpath('//*[@id="'+game_id+'"]/div['+str(i)+']')
+            selected_piece = retrieve_pieces.get_attribute("class")
+            piece_type = selected_piece.split(' ')[2-1]
+            piece_position = re.findall("\d+", selected_piece)
+            if piece_type == 'wp':
+                if selfWhite==True:
+                    (current_coords_self_pieces.wp).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wp).append(int(piece_position[0]))
+            elif piece_type == 'wr':
+                if selfWhite==True:
+                    (current_coords_self_pieces.wr).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wr).append(int(piece_position[0]))
+            elif piece_type == 'wn':
+                if selfWhite==True:
+                    (current_coords_self_pieces.wn).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wn).append(int(piece_position[0]))
+            elif piece_type == 'wb':
+                if selfWhite==True:
+                    (current_coords_self_pieces.wb).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wb).append(int(piece_position[0]))
+            elif piece_type == 'wq':
+                if selfWhite==True:
+                    (current_coords_self_pieces.wq).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wq).append(int(piece_position[0]))
+            elif piece_type == 'wk':    
+                if selfWhite==True:
+                    (current_coords_self_pieces.wk).append(int(piece_position[0]))
+                if selfBlack==True:
+                    (current_coords_enemy_pieces.wk).append(int(piece_position[0]))
+            if piece_type == 'bp':
+                if selfBlack==True:
+                    (current_coords_self_pieces.bp).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.bp).append(int(piece_position[0]))
+            elif piece_type == 'br':
+                if selfBlack==True:
+                    (current_coords_self_pieces.br).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.br).append(int(piece_position[0]))
+            elif piece_type == 'bn':
+                if selfBlack==True:
+                    (current_coords_self_pieces.bn).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.bn).append(int(piece_position[0]))
+            elif piece_type == 'bb':
+                if selfBlack==True:
+                    (current_coords_self_pieces.bb).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.bb).append(int(piece_position[0]))
+            elif piece_type == 'bq':
+                if selfBlack==True:
+                    (current_coords_self_pieces.bq).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.bq).append(int(piece_position[0]))
+            elif piece_type == 'bk':
+                if selfBlack==True:
+                    (current_coords_self_pieces.bk).append(int(piece_position[0]))
+                if selfWhite==True:
+                    (current_coords_enemy_pieces.bk).append(int(piece_position[0]))   
+    except NoSuchElementException:
+        run() 
     if selfWhite==True:
         log('Your white pawns are placed at: '+str(current_coords_self_pieces.wp))
-        log("Enemy's black pawns are placed at:"+str(current_coords_enemy_pieces.bp))
+        log("Enemy's black pawns are placed at: "+str(current_coords_enemy_pieces.bp))
     if selfBlack==True:
         log('Your black pawns are placed at: '+str(current_coords_self_pieces.bp))
-        log("Enemy's white pawns are placed at:"+str(current_coords_enemy_pieces.wp))
+        log("Enemy's white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
     turntaken = True
     log('Waiting for your next turn...')
     while turntaken==True:
@@ -311,13 +327,18 @@ def run():
     teamassign()
     log('Game hooked, interpretting parameters...')
     if selfWhite==True:
-        spaced('Game-ID'+game_id)
+        print(' ')
+        spaced('Game-ID: '+game_id)
         spaced('Your pieces are: White')
-        spaced('Enemy pieces are: Black\n')
+        spaced('Enemy pieces are: Black')
+        print(' ')
     if selfBlack==True:
-        spaced('Game-ID'+game_id)
+        print(' ')
+        spaced('Game-ID: '+game_id)
         spaced('Your pieces are: Black')
-        spaced('Enemy pieces are: White\n')
+        spaced('Enemy pieces are: White')
+        print(' ')
+        log('Waiting for your next turn...')
     game_status()
 
 if __name__ == "__main__":
