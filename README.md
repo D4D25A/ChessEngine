@@ -8,7 +8,7 @@
 * Active Piece Identification: Working 
 * Board Status Identification: Working
 * Player Colour Identification: Working
-* Game Start Detection: Work in-progress
+* Game Start Detection: Implementation Waiting
 * Player Turn Detection: Working
 * Game End Detection: Working
 * Extract Piece Coordinates: Working 
