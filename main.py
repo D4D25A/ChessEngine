@@ -44,9 +44,7 @@ def main(args_list):
     if "-h" in args_list or "--help" in args_list:
         import _help
 
-def main():
-
-    ascii = """
+ascii = """
  ██████╗██╗  ██╗███████╗███████╗███████╗███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗
 ██╔════╝██║  ██║██╔════╝██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝
 ██║     ███████║█████╗  ███████╗███████╗█████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  
@@ -56,10 +54,13 @@ def main():
            """
 
 
-    print(ascii)
-    print("\nVersion v0.01")
-    print("A cheat engine for Chess.com\n")
+print(ascii)
+print("\nVersion v0.01")
+print("A cheat engine for Chess.com\n")
+browser.get(website)
 
+
+def main():
     class abv_white_pieces:
         pawns = 'wp'
         rooks = 'wr'
@@ -75,10 +76,10 @@ def main():
         bishops = 'bb'
         queen = 'bq'
         king = 'bk'
-    browser.get(website)
+    input(timenow()+'Press enter when online game started...')
     run()
 
-def teamassign(): # to only be executed at the very beginning of a game
+def infoextract(): # to only be executed at the very beginning of a game
     global selfWhite 
     global enemyBlack 
     global selfBlack 
@@ -94,10 +95,10 @@ def teamassign(): # to only be executed at the very beginning of a game
     except NoSuchElementException:
         if 'computer' in browser.current_url:
             log(f'Bot matches are currently {bcolors.UNDERLINE}unsupported.{bcolors.ENDC}')
-            run()
+            main()
         else:
             log('Online game not found.')
-            run()
+            main()
     
     try:
         flipcheck = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
@@ -108,7 +109,7 @@ def teamassign(): # to only be executed at the very beginning of a game
             selfBlack = True
             enemyWhite = True
     except NoSuchElementException:
-        run()
+        main()
     
 
     global current_coords_self_pieces
@@ -181,19 +182,33 @@ def teamassign(): # to only be executed at the very beginning of a game
             wb = []
             wq = []
             wk = []
+    log('Game framework hooked, interpretting parameters...')
+    if selfWhite==True:
+        print(' ')
+        spaced('Game-ID: '+game_id)
+        spaced('Your pieces are: White')
+        spaced('Enemy pieces are: Black')
+        print(' ')
+    if selfBlack==True:
+        print(' ')
+        spaced('Game-ID: '+game_id)
+        spaced('Your pieces are: Black')
+        spaced('Enemy pieces are: White')
+        print(' ')
+        log('Waiting for your next turn...')
 
 
-def game_status():
+def game_begin():
     try:
         gameoverbuttons = browser.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[3]/div[1]')
         if 'Rematch' in (gameoverbuttons.text):
             log('Game ended.')
-            run()
+            main()
         else:
             pass
     except NoSuchElementException:
         log("Unable to hook into game buttons. Are you sure the game has begun?")
-        run()
+        main()
     statusscan = True
     while(True):
         try: 
@@ -206,11 +221,11 @@ def game_status():
                 pass
         except NoSuchElementException:
             log('Unable to hook into game timer.')
-            run()
-    process()
+            main()
+    get_coords()
 
 
-def process():
+def get_coords():
 
     if selfWhite==True:
         log(f'Reading {bcolors.UNDERLINE}normal{bcolors.ENDC} gameboard...')
@@ -370,7 +385,7 @@ def process():
                     (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')   
     except NoSuchElementException:
         log('Unable to hook into game pieces.')
-        run() 
+        main() 
     if selfWhite==True:
         print(' ')
         spaced('Your previous white pawns were placed at: '+str(previous_coords_self_pieces.wp))
@@ -395,26 +410,11 @@ def process():
             break
         else:
             pass
-    game_status()
+    game_begin()
 
 def run():
-    input(timenow()+'Press enter when online game started...')
-    teamassign()
-    log('Game framework hooked, interpretting parameters...')
-    if selfWhite==True:
-        print(' ')
-        spaced('Game-ID: '+game_id)
-        spaced('Your pieces are: White')
-        spaced('Enemy pieces are: Black')
-        print(' ')
-    if selfBlack==True:
-        print(' ')
-        spaced('Game-ID: '+game_id)
-        spaced('Your pieces are: Black')
-        spaced('Enemy pieces are: White')
-        print(' ')
-        log('Waiting for your next turn...')
-    game_status()
+    infoextract()
+    game_begin()
 
 if __name__ == "__main__":
     sys.exit(main())
