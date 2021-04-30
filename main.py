@@ -59,7 +59,6 @@ def main(error):
     print(ascii)
     print("\nVersion v0.01")
     print("A cheat engine for Chess.com\n")
-    browser.get(website)
 
     class abv_white_pieces:
         pawns = 'wp'
@@ -77,11 +76,13 @@ def main(error):
         queen = 'bq'
         king = 'bk'
     if error=='null':
+        browser.get(website)
         input(timenow()+'Press enter when online game started...')
         infoextract()
         run()
     else:
         log(error)
+        browser.get(website)
         input(timenow()+'Press enter when online game started...')
         infoextract()
         run()
