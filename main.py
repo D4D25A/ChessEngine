@@ -6,8 +6,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
-os.system('cls' if os.name == 'nt' else 'clear')
-
 class bcolors:
     HEADER = '\033[95m'
     CYAN = '\u001b[36m'
@@ -44,23 +42,24 @@ def main(args_list):
     if "-h" in args_list or "--help" in args_list:
         import _help
 
-ascii = """
- ██████╗██╗  ██╗███████╗███████╗███████╗███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗
-██╔════╝██║  ██║██╔════╝██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝
-██║     ███████║█████╗  ███████╗███████╗█████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  
-██║     ██╔══██║██╔══╝  ╚════██║╚════██║██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  
-╚██████╗██║  ██║███████╗███████║███████║███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗
- ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝
-           """
+
+def main(error):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    ascii = """
+    ██████╗██╗  ██╗███████╗███████╗███████╗███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗
+    ██╔════╝██║  ██║██╔════╝██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝
+    ██║     ███████║█████╗  ███████╗███████╗█████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  
+    ██║     ██╔══██║██╔══╝  ╚════██║╚════██║██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  
+    ╚██████╗██║  ██║███████╗███████║███████║███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗
+    ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝
+            """
 
 
-print(ascii)
-print("\nVersion v0.01")
-print("A cheat engine for Chess.com\n")
-browser.get(website)
+    print(ascii)
+    print("\nVersion v0.01")
+    print("A cheat engine for Chess.com\n")
+    browser.get(website)
 
-
-def main():
     class abv_white_pieces:
         pawns = 'wp'
         rooks = 'wr'
@@ -76,8 +75,25 @@ def main():
         bishops = 'bb'
         queen = 'bq'
         king = 'bk'
-    input(timenow()+'Press enter when online game started...')
-    run()
+    if error=='null':
+        input(timenow()+'Press enter when online game started...')
+        infoextract()
+        run()
+    else:
+        log(error)
+        input(timenow()+'Press enter when online game started...')
+        infoextract()
+        run()
+
+def gamelivecheck():
+    try:
+        gamebuttons = browser.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[3]/div[1]')
+        if 'Rematch' in (gamebuttons.text):
+            main('Game ended.')
+        else:
+            pass
+    except NoSuchElementException:
+        main("Unable to hook into game buttons. Are you sure the game has begun?")
 
 def infoextract(): # to only be executed at the very beginning of a game
     global selfWhite 
@@ -94,11 +110,9 @@ def infoextract(): # to only be executed at the very beginning of a game
         game_id = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[2]/captured-pieces').get_attribute("board-id")
     except NoSuchElementException:
         if 'computer' in browser.current_url:
-            log(f'Bot matches are currently {bcolors.UNDERLINE}unsupported.{bcolors.ENDC}')
-            main()
+            main(f'Bot matches are currently {bcolors.UNDERLINE}unsupported.{bcolors.ENDC}')
         else:
-            log('Online game not found.')
-            main()
+            main('Online game not found.')
     
     try:
         flipcheck = browser.find_element_by_xpath('//*[@id="'+game_id+'"]').get_attribute("class")
@@ -109,7 +123,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             selfBlack = True
             enemyWhite = True
     except NoSuchElementException:
-        main()
+        main('Unable to hook into game board.')
     
 
     global current_coords_self_pieces
@@ -197,19 +211,8 @@ def infoextract(): # to only be executed at the very beginning of a game
         print(' ')
         log('Waiting for your next turn...')
 
-
-def game_begin():
-    try:
-        gameoverbuttons = browser.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[3]/div[1]')
-        if 'Rematch' in (gameoverbuttons.text):
-            log('Game ended.')
-            main()
-        else:
-            pass
-    except NoSuchElementException:
-        log("Unable to hook into game buttons. Are you sure the game has begun?")
-        main()
-    statusscan = True
+def opponentturncheck():
+    opponentturn = True
     while(True):
         try: 
             prevopponenettime = browser.find_element_by_xpath('//*[@id="board-layout-player-top"]/div/div[3]/span').text
@@ -220,9 +223,7 @@ def game_begin():
             else:
                 pass
         except NoSuchElementException:
-            log('Unable to hook into game timer.')
-            main()
-    get_coords()
+            main('Unable to hook into game timer.')
 
 
 def get_coords():
@@ -384,8 +385,21 @@ def get_coords():
                 if selfWhite==True:
                     (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')   
     except NoSuchElementException:
-        log('Unable to hook into game pieces.')
-        main() 
+        main('Unable to hook into game pieces.') 
+
+def playerturncheck():
+    playerturn = True
+    log('Waiting for your next turn...')
+    while(True):
+        prevselftime = browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]/span').text
+        time.sleep(1.5)
+        newselftime = browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]/span').text
+        if newselftime == prevselftime:
+            break
+        else:
+            pass
+
+def outputpawnpos():
     if selfWhite==True:
         print(' ')
         spaced('Your previous white pawns were placed at: '+str(previous_coords_self_pieces.wp))
@@ -400,21 +414,15 @@ def get_coords():
         spaced("Enemy's previous white pawns were placed at: "+str(previous_coords_enemy_pieces.wp))
         spaced("Enemy's current white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
         print(' ')
-    turntaken = True
-    log('Waiting for your next turn...')
-    while turntaken==True:
-        prevselftime = browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]/span').text
-        time.sleep(1.5)
-        newselftime = browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]/span').text
-        if newselftime == prevselftime:
-            break
-        else:
-            pass
-    game_begin()
 
 def run():
-    infoextract()
-    game_begin()
+    realtime_scan = True
+    while(True):
+        gamelivecheck()
+        opponentturncheck()
+        get_coords()
+        outputpawnpos()
+        playerturncheck()
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main('null'))
