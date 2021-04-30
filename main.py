@@ -192,7 +192,7 @@ def game_status():
         else:
             pass
     except NoSuchElementException:
-        log('Unable to hook into game buttons.')
+        log("Unable to hook into game buttons. Are you sure the game has begun?")
         run()
     statusscan = True
     while(True):
@@ -307,67 +307,67 @@ def process():
             retrieve_pieces = browser.find_element_by_xpath('//*[@id="'+game_id+'"]/div['+str(i)+']')
             selected_piece = retrieve_pieces.get_attribute("class")
             piece_type = selected_piece.split(' ')[2-1]
-            piece_position = re.findall("\d+", selected_piece)
+            piece_position = re.findall("\d+", selected_piece)[0]
             if piece_type == 'wp':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wp).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wp).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wp).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wp).append('('+','.join(piece_position)+')')
             elif piece_type == 'wr':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wr).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wr).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wr).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wr).append('('+','.join(piece_position)+')')
             elif piece_type == 'wn':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wn).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wn).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wn).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wn).append('('+','.join(piece_position)+')')
             elif piece_type == 'wb':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wb).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wb).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wb).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wb).append('('+','.join(piece_position)+')')
             elif piece_type == 'wq':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wq).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wq).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wq).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wq).append('('+','.join(piece_position)+')')
             elif piece_type == 'wk':    
                 if selfWhite==True:
-                    (current_coords_self_pieces.wk).append(int(piece_position[0]))
+                    (current_coords_self_pieces.wk).append('('+','.join(piece_position)+')')
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wk).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.wk).append('('+','.join(piece_position)+')')
             if piece_type == 'bp':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bp).append(int(piece_position[0]))
+                    (current_coords_self_pieces.bp).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bp).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.bp).append('('+','.join(piece_position)+')')
             elif piece_type == 'br':
                 if selfBlack==True:
-                    (current_coords_self_pieces.br).append(int(piece_position[0]))
+                    (current_coords_self_pieces.br).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.br).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.br).append('('+','.join(piece_position)+')')
             elif piece_type == 'bn':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bn).append(int(piece_position[0]))
+                    (current_coords_self_pieces.bn).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bn).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.bn).append('('+','.join(piece_position)+')')
             elif piece_type == 'bb':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bb).append(int(piece_position[0]))
+                    (current_coords_self_pieces.bb).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bb).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.bb).append('('+','.join(piece_position)+')')
             elif piece_type == 'bq':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bq).append(int(piece_position[0]))
+                    (current_coords_self_pieces.bq).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bq).append(int(piece_position[0]))
+                    (current_coords_enemy_pieces.bq).append('('+','.join(piece_position)+')')
             elif piece_type == 'bk':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bk).append(int(piece_position[0]))
+                    (current_coords_self_pieces.bk).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bk).append(int(piece_position[0]))   
+                    (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')   
     except NoSuchElementException:
         log('Unable to hook into game pieces.')
         run() 
