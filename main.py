@@ -132,7 +132,7 @@ def infoextract(): # to only be executed at the very beginning of a game
     global current_coords_enemy_pieces
     global previous_coords_enemy_pieces
     if selfWhite==True:
-        class current_coords_self_pieces: # consider coordinates as [x,y]
+        class current_coords_self_pieces: # consider coordinates as (x,y)
             wp = []
             wr = []
             wn = []
@@ -140,7 +140,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             wq = []
             wk = []
         
-        class previous_coords_self_pieces: # consider coordinates as [x,y]
+        class previous_coords_self_pieces: # consider coordinates as (x,y)
             wp = []
             wr = []
             wn = []
@@ -148,7 +148,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             wq = []
             wk = []
         
-        class current_coords_enemy_pieces: # consider coordinates as [x,y]
+        class current_coords_enemy_pieces: # consider coordinates as (x,y)
             bp = []
             br = []
             bn = []
@@ -156,7 +156,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             bq = []
             bk = []
         
-        class previous_coords_enemy_pieces: # consider coordinates as [x,y]
+        class previous_coords_enemy_pieces: # consider coordinates as (x,y)
             bp = []
             br = []
             bn = []
@@ -166,7 +166,7 @@ def infoextract(): # to only be executed at the very beginning of a game
 
 
     if selfBlack==True:
-        class current_coords_self_pieces: # consider coordinates as [x,y]
+        class current_coords_self_pieces: # consider coordinates as (x,y)
             bp = []
             br = []
             bn = []
@@ -174,7 +174,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             bq = []
             bk = []
         
-        class previous_coords_self_pieces: # consider coordinates as [x,y]
+        class previous_coords_self_pieces: # consider coordinates as (x,y)
             bp = []
             br = []
             bn = []
@@ -182,7 +182,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             bq = []
             bk = []
         
-        class current_coords_enemy_pieces: # consider coordinates as [x,y]
+        class current_coords_enemy_pieces: # consider coordinates as (x,y)
             wp = []
             wr = []
             wn = []
@@ -190,7 +190,7 @@ def infoextract(): # to only be executed at the very beginning of a game
             wq = []
             wk = []
         
-        class previous_coords_enemy_pieces: # consider coordinates as [x,y]
+        class previous_coords_enemy_pieces: # consider coordinates as (x,y)
             wp = []
             wr = []
             wn = []
