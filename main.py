@@ -44,6 +44,7 @@ def main(args_list):
 
 
 def main(error):
+    realtime_scan = False
     os.system('cls' if os.name == 'nt' else 'clear')
     ascii = """
     ██████╗██╗  ██╗███████╗███████╗███████╗███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗
