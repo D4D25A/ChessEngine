@@ -38,11 +38,6 @@ website = ('https://www.chess.com/play/online/')
 name_white_pieces = ['wp','wr','wn','wb','wq','wk']
 name_black_pieces = ['bp','br','bn','bb','bq','bk']
 
-def main(args_list):
-    if "-h" in args_list or "--help" in args_list:
-        import _help
-
-
 def main(error):
     realtime_scan = False
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -75,7 +70,7 @@ def main(error):
         bishops = 'bb'
         queen = 'bq'
         king = 'bk'
-    if error=='null':
+    if error is None:
         browser.get(website)
         input(timenow()+'Press enter when online game started...')
         infoextract()
@@ -427,4 +422,5 @@ def run():
         playerturncheck()
 
 if __name__ == "__main__":
-    sys.exit(main('null'))
+    error = None
+    sys.exit(main(error))
