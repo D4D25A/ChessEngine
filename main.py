@@ -431,5 +431,4 @@ def run():
         playerturncheck()
 
 if __name__ == "__main__":
-    error = None
-    sys.exit(main(error))
+    sys.exit(main(None))
