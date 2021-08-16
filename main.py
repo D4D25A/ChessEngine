@@ -315,12 +315,15 @@ def get_coords():
         (current_coords_enemy_pieces.wq).clear()
         (current_coords_enemy_pieces.wk).clear()
 
-    try:
-        for i in range(1,33):
+    no_element_counter = 0
+    pieces_counter = 0
+    for i in range(1,40):
+        try:
             retrieve_pieces = browser.find_element_by_xpath('//*[@id="'+game_id+'"]/div['+str(i)+']')
             selected_piece = retrieve_pieces.get_attribute("class")
             piece_type = selected_piece.split(' ')[2-1]
             piece_position = re.findall("\d+", selected_piece)[0]
+            pieces_counter+=1
             if piece_type == 'wp':
                 if selfWhite==True:
                     (current_coords_self_pieces.wp).append('('+','.join(piece_position)+')')
@@ -380,9 +383,15 @@ def get_coords():
                 if selfBlack==True:
                     (current_coords_self_pieces.bk).append('('+','.join(piece_position)+')')
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')   
-    except NoSuchElementException:
-        main('Unable to hook into game pieces.') 
+                    (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')
+
+        except (NoSuchElementException, IndexError):
+            no_element_counter+=1
+            if no_element_counter == 39:
+                main('Unable to hook into game pieces.') 
+            else:
+                pass
+    log(str(pieces_counter)+' pieces found.')
 
 def playerturncheck():
     playerturn = True
