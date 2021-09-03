@@ -480,17 +480,67 @@ def find_difference(a, b):
 
 def differentiatepos():
     if selfWhite==True:
-        try:
-            for i in range((len(current_coords_self_pieces.wp))):
+        for i in range((len(current_coords_self_pieces.wp))):
+            try:
                 (difference_coords_self_pieces.wp).append(find_difference(previous_coords_self_pieces.wp[i], current_coords_self_pieces.wp[i]))
-        except IndexError:
-            (difference_coords_self_pieces.wp).append('Currently Unavailable.')
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.wr))):
+            try:
+                (difference_coords_self_pieces.wr).append(find_difference(previous_coords_self_pieces.wr[i], current_coords_self_pieces.wr[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.wn))):
+            try:
+                (difference_coords_self_pieces.wn).append(find_difference(previous_coords_self_pieces.wn[i], current_coords_self_pieces.wn[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.wb))):
+            try:
+                (difference_coords_self_pieces.wb).append(find_difference(previous_coords_self_pieces.wb[i], current_coords_self_pieces.wb[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.wq))):
+            try:
+                (difference_coords_self_pieces.wq).append(find_difference(previous_coords_self_pieces.wq[i], current_coords_self_pieces.wq[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.wk))):
+            try:
+                (difference_coords_self_pieces.wk).append(find_difference(previous_coords_self_pieces.wk[i], current_coords_self_pieces.wk[i]))
+            except IndexError:
+                pass
     if selfBlack==True:
-        try:
-            for i in range((len(current_coords_self_pieces.bp))):
+        for i in range((len(current_coords_self_pieces.bp))):
+            try:
                 (difference_coords_self_pieces.bp).append(find_difference(previous_coords_self_pieces.bp[i], current_coords_self_pieces.bp[i]))
-        except IndexError:
-            (difference_coords_self_pieces.bp).append('Currently Unavailable.')
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.br))):
+            try:
+                (difference_coords_self_pieces.br).append(find_difference(previous_coords_self_pieces.br[i], current_coords_self_pieces.br[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.bn))):
+            try:
+                (difference_coords_self_pieces.bn).append(find_difference(previous_coords_self_pieces.bn[i], current_coords_self_pieces.bn[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.bb))):
+            try:
+                (difference_coords_self_pieces.bb).append(find_difference(previous_coords_self_pieces.bb[i], current_coords_self_pieces.bb[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.bq))):
+            try:
+                (difference_coords_self_pieces.bq).append(find_difference(previous_coords_self_pieces.bq[i], current_coords_self_pieces.bq[i]))
+            except IndexError:
+                pass
+        for i in range((len(current_coords_self_pieces.bk))):
+            try:
+                (difference_coords_self_pieces.bk).append(find_difference(previous_coords_self_pieces.bk[i], current_coords_self_pieces.bk[i]))
+            except IndexError:
+                pass
 
 def outputpawnpos():
     if selfWhite==True:

@@ -14,7 +14,7 @@
 * Extract Piece Coordinates: Working 
 * Current Piece Coordinate Storage: Working 
 * Previous Piece Coordinate Storage: Working
-* Piece Movement Differentiation: Semi-Working (further implementation needed)
+* Piece Movement Differentiation: Working
 * Analysis Engine Input: Work in-progress
 * Analysis Engine Output: Work in-progress
 * Client Auto-play: Work in-progress
