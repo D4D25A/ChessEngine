@@ -143,6 +143,14 @@ def infoextract(): # to only be executed at the very beginning of a game
             wb = []
             wq = []
             wk = []
+
+        class difference_coords_self_pieces: # consider coordinates as (x,y)
+            wp = []
+            wr = []
+            wn = []
+            wb = []
+            wq = []
+            wk = []
         
         class current_coords_enemy_pieces: # consider coordinates as (x,y)
             bp = []
@@ -153,6 +161,14 @@ def infoextract(): # to only be executed at the very beginning of a game
             bk = []
         
         class previous_coords_enemy_pieces: # consider coordinates as (x,y)
+            bp = []
+            br = []
+            bn = []
+            bb = []
+            bq = []
+            bk = []
+        
+        class difference_coords_enemy_pieces: # consider coordinates as (x,y)
             bp = []
             br = []
             bn = []
@@ -177,6 +193,14 @@ def infoextract(): # to only be executed at the very beginning of a game
             bb = []
             bq = []
             bk = []
+
+        class difference_coords_self_pieces: # consider coordinates as (x,y)
+            bp = []
+            br = []
+            bn = []
+            bb = []
+            bq = []
+            bk = []
         
         class current_coords_enemy_pieces: # consider coordinates as (x,y)
             wp = []
@@ -193,6 +217,15 @@ def infoextract(): # to only be executed at the very beginning of a game
             wb = []
             wq = []
             wk = []
+
+        class difference_coords_enemy_pieces: # consider coordinates as (x,y)
+            wp = []
+            wr = []
+            wn = []
+            wb = []
+            wq = []
+            wk = []
+
     log('Game framework hooked, interpretting parameters...')
     if selfWhite==True:
         print(' ')
@@ -326,64 +359,64 @@ def get_coords():
             pieces_counter+=1
             if piece_type == 'wp':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wp).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wp).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wp).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wp).append(','.join(piece_position))
             elif piece_type == 'wr':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wr).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wr).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wr).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wr).append(','.join(piece_position))
             elif piece_type == 'wn':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wn).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wn).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wn).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wn).append(','.join(piece_position))
             elif piece_type == 'wb':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wb).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wb).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wb).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wb).append(','.join(piece_position))
             elif piece_type == 'wq':
                 if selfWhite==True:
-                    (current_coords_self_pieces.wq).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wq).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wq).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wq).append(','.join(piece_position))
             elif piece_type == 'wk':    
                 if selfWhite==True:
-                    (current_coords_self_pieces.wk).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.wk).append(','.join(piece_position))
                 if selfBlack==True:
-                    (current_coords_enemy_pieces.wk).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.wk).append(','.join(piece_position))
             if piece_type == 'bp':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bp).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.bp).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bp).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.bp).append(','.join(piece_position))
             elif piece_type == 'br':
                 if selfBlack==True:
-                    (current_coords_self_pieces.br).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.br).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.br).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.br).append(','.join(piece_position))
             elif piece_type == 'bn':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bn).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.bn).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bn).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.bn).append(','.join(piece_position))
             elif piece_type == 'bb':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bb).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.bb).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bb).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.bb).append(','.join(piece_position))
             elif piece_type == 'bq':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bq).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.bq).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bq).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.bq).append(','.join(piece_position))
             elif piece_type == 'bk':
                 if selfBlack==True:
-                    (current_coords_self_pieces.bk).append('('+','.join(piece_position)+')')
+                    (current_coords_self_pieces.bk).append(','.join(piece_position))
                 if selfWhite==True:
-                    (current_coords_enemy_pieces.bk).append('('+','.join(piece_position)+')')
+                    (current_coords_enemy_pieces.bk).append(','.join(piece_position))
 
         except (NoSuchElementException, IndexError):
             no_element_counter+=1
@@ -420,6 +453,15 @@ def outputpawnpos():
         spaced("Enemy's previous white pawns were placed at: "+str(previous_coords_enemy_pieces.wp))
         spaced("Enemy's current white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
         print(' ')
+
+def find_difference(a, b):
+    a_list = a.split(",")
+    b_list = b.split(",")
+    a_x = int(a_list[0])
+    a_y = int(a_list[1])
+    b_x = int(b_list[0])
+    b_y = int(b_list[1])
+    return str(abs(a_x - b_x)) +','+ str(abs(a_y - b_y))
 
 def run():
     realtime_scan = True
