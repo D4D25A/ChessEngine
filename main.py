@@ -125,8 +125,10 @@ def infoextract(): # to only be executed at the very beginning of a game
 
     global current_coords_self_pieces
     global previous_coords_self_pieces
+    global difference_coords_self_pieces
     global current_coords_enemy_pieces
     global previous_coords_enemy_pieces
+    global difference_coords_enemy_pieces
     if selfWhite==True:
         class current_coords_self_pieces: # consider coordinates as (x,y)
             wp = []
@@ -297,12 +299,26 @@ def get_coords():
         (current_coords_self_pieces.wq).clear()
         (current_coords_self_pieces.wk).clear()
 
+        (difference_coords_self_pieces.wp).clear()
+        (difference_coords_self_pieces.wr).clear()
+        (difference_coords_self_pieces.wn).clear()
+        (difference_coords_self_pieces.wb).clear()
+        (difference_coords_self_pieces.wq).clear()
+        (difference_coords_self_pieces.wk).clear()
+
         (current_coords_enemy_pieces.bp).clear()
         (current_coords_enemy_pieces.br).clear()
         (current_coords_enemy_pieces.bn).clear()
         (current_coords_enemy_pieces.bb).clear()
         (current_coords_enemy_pieces.bq).clear()
         (current_coords_enemy_pieces.bk).clear()
+
+        (difference_coords_enemy_pieces.bp).clear()
+        (difference_coords_enemy_pieces.br).clear()
+        (difference_coords_enemy_pieces.bn).clear()
+        (difference_coords_enemy_pieces.bb).clear()
+        (difference_coords_enemy_pieces.bq).clear()
+        (difference_coords_enemy_pieces.bk).clear()
     
     if selfBlack==True:
         log(f'Reading {bcolors.UNDERLINE}flipped{bcolors.ENDC} gameboard...')
@@ -341,12 +357,26 @@ def get_coords():
         (current_coords_self_pieces.bq).clear()
         (current_coords_self_pieces.bk).clear()
 
+        (difference_coords_self_pieces.bp).clear()
+        (difference_coords_self_pieces.br).clear()
+        (difference_coords_self_pieces.bn).clear()
+        (difference_coords_self_pieces.bb).clear()
+        (difference_coords_self_pieces.bq).clear()
+        (difference_coords_self_pieces.bk).clear()
+
         (current_coords_enemy_pieces.wp).clear()
         (current_coords_enemy_pieces.wr).clear()
         (current_coords_enemy_pieces.wn).clear()
         (current_coords_enemy_pieces.wb).clear()
         (current_coords_enemy_pieces.wq).clear()
         (current_coords_enemy_pieces.wk).clear()
+
+        (difference_coords_enemy_pieces.wp).clear()
+        (difference_coords_enemy_pieces.wr).clear()
+        (difference_coords_enemy_pieces.wn).clear()
+        (difference_coords_enemy_pieces.wb).clear()
+        (difference_coords_enemy_pieces.wq).clear()
+        (difference_coords_enemy_pieces.wk).clear()
 
     no_element_counter = 0
     pieces_counter = 0
@@ -438,22 +468,6 @@ def playerturncheck():
         else:
             pass
 
-def outputpawnpos():
-    if selfWhite==True:
-        print(' ')
-        spaced('Your previous white pawns were placed at: '+str(previous_coords_self_pieces.wp))
-        spaced('Your current white pawns are placed at: '+str(current_coords_self_pieces.wp))
-        spaced("Enemy's previous black pawns were placed at: "+str(previous_coords_enemy_pieces.bp))
-        spaced("Enemy's current black pawns are placed at: "+str(current_coords_enemy_pieces.bp))
-        print(' ')
-    if selfBlack==True:
-        print(' ')
-        spaced('Your previous black pawns were placed at: '+str(previous_coords_self_pieces.bp))
-        spaced('Your current black pawns are placed at: '+str(current_coords_self_pieces.bp))
-        spaced("Enemy's previous white pawns were placed at: "+str(previous_coords_enemy_pieces.wp))
-        spaced("Enemy's current white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
-        print(' ')
-
 def find_difference(a, b):
     a_list = a.split(",")
     b_list = b.split(",")
@@ -463,12 +477,46 @@ def find_difference(a, b):
     b_y = int(b_list[1])
     return str(abs(a_x - b_x)) +','+ str(abs(a_y - b_y))
 
+
+def differentiatepos():
+    if selfWhite==True:
+        try:
+            for i in range((len(current_coords_self_pieces.wp))):
+                (difference_coords_self_pieces.wp).append(find_difference(previous_coords_self_pieces.wp[i], current_coords_self_pieces.wp[i]))
+        except IndexError:
+            (difference_coords_self_pieces.wp).append('Currently Unavailable.')
+    if selfBlack==True:
+        try:
+            for i in range((len(current_coords_self_pieces.bp))):
+                (difference_coords_self_pieces.bp).append(find_difference(previous_coords_self_pieces.bp[i], current_coords_self_pieces.bp[i]))
+        except IndexError:
+            (difference_coords_self_pieces.bp).append('Currently Unavailable.')
+
+def outputpawnpos():
+    if selfWhite==True:
+        print(' ')
+        spaced('Your previous white pawns were placed at: '+str(previous_coords_self_pieces.wp))
+        spaced('Your current white pawns are placed at: '+str(current_coords_self_pieces.wp))
+        spaced('Your difference in moves amongst white pawns: '+str(difference_coords_self_pieces.wp))
+        spaced("Enemy's previous black pawns were placed at: "+str(previous_coords_enemy_pieces.bp))
+        spaced("Enemy's current black pawns are placed at: "+str(current_coords_enemy_pieces.bp))
+        print(' ')
+    if selfBlack==True:
+        print(' ')
+        spaced('Your previous black pawns were placed at: '+str(previous_coords_self_pieces.bp))
+        spaced('Your current black pawns are placed at: '+str(current_coords_self_pieces.bp))
+        spaced('Your difference in moves amongst black pawns: '+str(difference_coords_self_pieces.bp))
+        spaced("Enemy's previous white pawns were placed at: "+str(previous_coords_enemy_pieces.wp))
+        spaced("Enemy's current white pawns are placed at: "+str(current_coords_enemy_pieces.wp))
+        print(' ')
+
 def run():
     realtime_scan = True
     while(True):
         gamelivecheck()
         opponentturncheck()
         get_coords()
+        differentiatepos()
         outputpawnpos()
         playerturncheck()
 
